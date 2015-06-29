@@ -1,6 +1,7 @@
 #!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0
 
 std_trap = trap("INT") { exit! 130 } # no backtrace thanks
+File.umask(0002)
 
 HOMEBREW_BREW_FILE = ENV['HOMEBREW_BREW_FILE']
 
@@ -143,7 +144,6 @@ begin
       ENV["HOMEBREW_#{e}"] = Object.const_get("HOMEBREW_#{e}").to_s
     end
 
-    File.umask(0002)
     exec "brew-#{cmd}", *ARGV
   elsif (path = which("brew-#{cmd}.rb")) && require?(path)
     exit Homebrew.failed? ? 1 : 0
